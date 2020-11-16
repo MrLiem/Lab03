@@ -1,0 +1,28 @@
+<div class="table-row">
+    <div class="itemId">{{id}}</div>
+    <div class="name">
+        <img src="https://anphat.com.vn/media/product/31320_2.png" alt="item" />
+        <div>
+            <div class="item-title">{{title}}</div>
+            <div class="item-description">
+                {{summary}}
+            </div>
+        </div>
+    </div>
+    <div class="cost">{{price}} VND</div>
+    <div class="status">
+        {{#if number}}
+        Còn hàng
+        {{else}}
+        Hết hàng
+        {{/if}}
+        <br />
+        ({{number}})
+    </div>
+
+    <div class="operate">
+        <button class="edit" id="editButton"><a hef="/updateItemPage">Edit</a></button>
+        <button class="details" id="detailsButton">Details</button>
+        <button class="delete" id="deleteButton">Delete</button>
+    </div>
+</div>
