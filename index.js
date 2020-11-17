@@ -7,7 +7,7 @@ const hbs = require("hbs");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 // import file
-const Item = require("./models/item.js");
+const Item = require("./models/Item");
 
 // Khởi chạy express
 const app = express();
