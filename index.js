@@ -144,7 +144,11 @@ app.put("/saveUpdatedItem", (req, res) => {
 });
 app.put("/uploadUploadedImage", upload.single("image"), (req, res) => {
   if (req.file) {
-    updatedItem.image = req.file.buffer;
+    let data = req.file.buffer;
+    let buff = Buffer.from(data, "utf-8");
+    let base64Data = buff.toString("base64");
+
+    updatedItem.image = base64Data;
   }
   let newItems = items.filter((item) => item.id !== updatedItem.id);
   newItems.push(updatedItem);
