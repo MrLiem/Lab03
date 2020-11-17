@@ -8,42 +8,6 @@ html {
   /* font-size: ; */
 }
 
-/* Class for reuse */
-.order,
-.name,
-.cost,
-.operate,
-.status {
-  border-right: solid 1px black;
-  border-bottom: solid 1px black;
-  padding-left: 5px;
-}
-.order {
-  flex: 1;
-  min-width: 33px;
-}
-
-.name {
-  flex: 15;
-  min-width: 103px;
-  text-align: left;
-}
-.cost {
-  flex: 4;
-  min-width: 85px;
-}
-
-.operate {
-  flex: 8;
-  border-right: none;
-  min-width: 95px;
-}
-
-.status {
-  flex: 3;
-  min-width: 88px;
-}
-
 /* ---------------- */
 .navbar {
   background: black;
@@ -97,8 +61,4 @@ form {
 
 .form-button > button {
   margin-left: 10px;
-}
-
-.form-group #imageUrl {
-  width: 100%;
 }

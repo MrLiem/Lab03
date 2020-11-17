@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 // import file
 const Item = require("./models/item.js");
+const { Buffer } = require("buffer");
 
 // Khởi chạy express
 const app = express();
@@ -30,6 +31,7 @@ const partialsPath = path.join(__dirname, "./templates/partials");
 app.set("view engine", "hbs");
 app.set("views", viewsPath);
 hbs.registerPartials(partialsPath);
+hbs.registerHelper("isPositive", (number) => number > 0);
 
 //Setup static directory to serve
 app.use(express.static(publicDirectoryPath));
@@ -38,8 +40,11 @@ app.set("view engine", "hbs");
 app.use("/api/items", require("./controllers/item"));
 
 // route for page
+app.get("/", (req, res) => {
+  res.render("mainPage", { items });
+});
 app.get("/admin", (req, res) => {
-  res.render("index", { items });
+  res.render("adminPage", { items });
 });
 
 app.get("/addItemPage", (req, res) => {
@@ -53,16 +58,21 @@ app.get("/updateItemPage", (req, res) => {
 // add Item
 let item = new Item();
 app.post("/addItem", (req, res) => {
-  const { id, title, summary, price, number } = req.body;
-  if (id) {
-    item.id = id;
-    item.title = title;
-    item.summary = summary;
-    item.price = price;
-    item.number = number;
-    return res.status(200).json({ success: true, item });
+  const { id, title, summary, brand, price, number } = req.body;
+
+  // check item co trung id hay khong
+  let filter = items.filter((item) => item.id === id);
+  if (filter.length !== 0) {
+    return res.json({ success: false, message: "Duplicate Id" });
   }
-  res.json({ success: false, message: "Please type the Id!!!" });
+  item.id = id;
+  item.title = title;
+  item.brand = brand;
+  item.summary = summary;
+  item.price = price;
+  item.number = number;
+
+  return res.status(200).json({ success: true, item });
 });
 
 //Xử lí image user gửi lên
@@ -78,9 +88,13 @@ const upload = multer({
     cb(undefined, true);
   },
 });
-app.post("/upload", upload.single("image"), (req, res) => {
+app.post("/uploadNewImage", upload.single("image"), (req, res) => {
   if (req.file) {
-    item.image = req.file.buffer;
+    let data = req.file.buffer;
+    let buff = Buffer.from(data, "utf-8");
+    let base64Data = buff.toString("base64");
+
+    item.image = base64Data;
     items.push(item);
     let newItems = JSON.stringify(items);
     fs.writeFileSync("items.json", newItems);
@@ -91,18 +105,51 @@ app.post("/upload", upload.single("image"), (req, res) => {
 //delete item
 app.delete("/deleteItem/:id", (req, res) => {
   const itemId = req.params.id;
-  let removeIndex = items
-    .map((item, key) => {
-      return item.id === itemId;
-    })
-    .indexOf(itemId);
-  //remove obj
-  items.splice(removeIndex, 1);
+  // filter những item có id === itemId
+  let newItems = items.filter((item, index) => {
+    return item.id !== itemId;
+  });
 
-  let newItems = JSON.stringify(items);
+  //write newItems to file
+  newItems = JSON.stringify(newItems);
   fs.writeFileSync("items.json", newItems);
   res.status(200).json({ success: true });
 });
+
+// update item
+let updatedItem = new Item();
+
+app.post("/getUpdatedItem", (req, res) => {
+  const itemId = req.body.itemId;
+
+  let filterdItem = items.filter((item) => item.id === itemId);
+  filterdItem = filterdItem[0];
+  // de chut nua su dung
+  updatedItem.image = filterdItem.image;
+  res.status(200).json({ success: true, item: filterdItem });
+});
+
+app.put("/saveUpdatedItem", (req, res) => {
+  const { id, title, brand, summary, price, number } = req.body;
+  updatedItem.id = id;
+  updatedItem.title = title;
+  updatedItem.brand = brand;
+  updatedItem.summary = summary;
+  updatedItem.price = price;
+  updatedItem.number = number;
+  return res.status(200).json({ success: true, item: updatedItem });
+});
+app.put("/uploadUploadedImage", upload.single("image"), (req, res) => {
+  if (req.file) {
+    updatedItem.image = req.file.buffer;
+  }
+  let newItems = items.filter((item) => item.id !== updatedItem.id);
+  newItems.push(updatedItem);
+  newItems = JSON.stringify(newItems);
+  fs.writeFileSync("items.json", newItems);
+  res.status(200).json({ success: true });
+});
+
 app.listen(port, () => {
   console.log(`server listen on port ${port}`);
 });

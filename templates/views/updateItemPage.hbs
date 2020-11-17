@@ -22,12 +22,16 @@
                 <input type="text" class="form-control" id="title">
             </div>
             <div class="form-group">
+                <label for="brand">Brand</label>
+                <input type="text" class="form-control" id="brand">
+            </div>
+            <div class="form-group">
                 <label for="summary">Summary</label>
                 <input type="text" class="form-control" id="summary">
             </div>
-            <div class="form-group">
-                <label for="imageUrl">ImageUrl</label>
-                <input type="text" class="form-control" id="imageUrl">
+            <div class="form-group" style="margin-left: -5px;">
+                <label for="images">Image</label>
+                <input type="file" id="images" name="image">
             </div>
             <div class="form-group">
                 <label for="price">Price</label>
@@ -38,7 +42,7 @@
                 <input type="number" class="form-control" id="number">
             </div>
             <div class="form-button">
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary" id="saveItemButton">Save</button>
             </div>
         </form>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -50,6 +54,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"
             integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw+LXRm4D72EIRXzvcHQtE8/VQ=="
             crossorigin="anonymous"></script>
+        <script src="/js/updateItemPage.js"></script>
 </body>
 
 </html>

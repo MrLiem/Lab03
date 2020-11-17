@@ -1,4 +1,3 @@
-// axios.defaults.baseURL = "http:localhost:3000/";
 const deleteButtons = document.querySelectorAll("#deleteButton");
 
 for (let i = 0; i < deleteButtons.length; i++) {
@@ -6,7 +5,6 @@ for (let i = 0; i < deleteButtons.length; i++) {
     const operateDiv = deleteButtons[i].parentElement;
     const tableRow = operateDiv.parentElement;
     const itemId = tableRow.querySelector(".itemId").innerHTML;
-    // location.href = "/deleteItem?id=" + itemId;
     const deleteItem = async () => {
       const response = await axios.delete(
         `/deleteItem/${itemId}`,
