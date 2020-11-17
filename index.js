@@ -40,9 +40,13 @@ app.use("/api/items", require("./controllers/item"));
 
 // route for page
 app.get("/", (req, res) => {
+  let rawdata = fs.readFileSync("items.json");
+  let items = JSON.parse(rawdata);
   res.render("mainPage", { items });
 });
 app.get("/admin", (req, res) => {
+  let rawdata = fs.readFileSync("items.json");
+  let items = JSON.parse(rawdata);
   res.render("adminPage", { items });
 });
 
