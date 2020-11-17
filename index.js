@@ -8,11 +8,10 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 // import file
 const Item = require("./models/item.js");
-const { Buffer } = require("buffer");
 
 // Khởi chạy express
 const app = express();
-const port = 3000;
+const port = 3000 || process.env.PORT;
 
 // Đọc file data
 let rawdata = fs.readFileSync("items.json");
