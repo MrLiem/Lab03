@@ -11,7 +11,7 @@ const Item = require("./models/Item");
 
 // Khởi chạy express
 const app = express();
-const port = 3000 || process.env.PORT;
+const port = process.env.PORT || 3000;
 
 // Đọc file data
 let rawdata = fs.readFileSync("items.json");
