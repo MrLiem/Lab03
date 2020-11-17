@@ -40,7 +40,7 @@ button.addEventListener("click", (event) => {
       let formData = new FormData();
       let images = document.querySelector("#images");
       formData.append("image", images.files[0]);
-      const response2 = await axios.put("/uploadUploadedImage", formData, {
+      const response2 = await axios.put("/uploadUpdatedImage", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
