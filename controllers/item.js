@@ -57,6 +57,7 @@ router.post("/uploadNewImage", upload.single("image"), (req, res) => {
     items.push(item);
     let newItems = JSON.stringify(items);
     fs.writeFileSync("items.json", newItems);
+    item = new Item();
     res.status(200).json({ success: true });
   }
 });
@@ -112,6 +113,7 @@ router.put("/uploadUpdatedImage", upload.single("image"), (req, res) => {
   newItems.push(updatedItem);
   newItems = JSON.stringify(newItems);
   fs.writeFileSync("items.json", newItems);
+  updatedItem = new Item();
   res.status(200).json({ success: true });
 });
 

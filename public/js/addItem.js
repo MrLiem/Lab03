@@ -30,7 +30,7 @@ button.addEventListener("click", (event) => {
       // send image
       let formData = new FormData();
       let images = document.querySelector("#images");
-      console.log(images.files[0]);
+
       if (images.files[0] === undefined) {
         return alert("Please add an image!!!");
       }
