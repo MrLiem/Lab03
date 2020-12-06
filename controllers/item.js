@@ -17,6 +17,10 @@ let item = new Item();
 router.post("/addItem", (req, res) => {
   const { id, title, summary, brand, price, number } = req.body;
 
+  // Đọc file data
+  let rawdata = fs.readFileSync("items.json");
+  let items = JSON.parse(rawdata);
+
   // check item co trung id hay khong
   let filter = items.filter((item) => item.id === id);
   if (filter.length !== 0) {
@@ -68,6 +72,9 @@ router.post("/uploadNewImage", upload.single("image"), (req, res) => {
 //Delete Item
 router.delete("/deleteItem/:id", (req, res) => {
   const itemId = req.params.id;
+  // Đọc file data
+  let rawdata = fs.readFileSync("items.json");
+  let items = JSON.parse(rawdata);
   // filter những item có id === itemId
   let newItems = items.filter((item, index) => {
     return item.id !== itemId;
@@ -84,6 +91,9 @@ let updatedItem = new Item();
 router.post("/getUpdatedItem", (req, res) => {
   const itemId = req.body.itemId;
 
+  // Đọc file data
+  let rawdata = fs.readFileSync("items.json");
+  let items = JSON.parse(rawdata);
   let filterdItem = items.filter((item) => item.id === itemId);
   filterdItem = filterdItem[0];
   // set image cho updatedItem trong th user ko update image
@@ -112,6 +122,9 @@ router.put("/uploadUpdatedImage", upload.single("image"), (req, res) => {
 
     updatedItem.image = base64Data;
   }
+  // Đọc file data
+  let rawdata = fs.readFileSync("items.json");
+  let items = JSON.parse(rawdata);
   let newItems = items.filter((item) => item.id !== updatedItem.id);
   newItems.push(updatedItem);
   newItems = JSON.stringify(newItems);
