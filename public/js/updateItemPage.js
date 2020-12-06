@@ -55,6 +55,5 @@ button.addEventListener("click", (event) => {
       alert(response.data.message);
     }
   };
-
   saveUpdatedITem();
 });

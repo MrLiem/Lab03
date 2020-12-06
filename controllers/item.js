@@ -54,6 +54,9 @@ router.post("/uploadNewImage", upload.single("image"), (req, res) => {
     let base64Data = buff.toString("base64");
 
     item.image = base64Data;
+    // load items
+    let rawdata = fs.readFileSync("items.json");
+    let items = JSON.parse(rawdata);
     items.push(item);
     let newItems = JSON.stringify(items);
     fs.writeFileSync("items.json", newItems);
